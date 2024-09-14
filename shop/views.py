@@ -10,7 +10,7 @@ def index(request):
     # return HttpResponse("Success")
 
 def about(request):
-    return HttpResponse("about")
+    return render(request, 'shop/about.html')
 
 def contact(request):
     return HttpResponse("contact")
@@ -20,14 +20,9 @@ def track_order(request):
 
 def product_view(request):
     # productView
-    obj = models.Product
     from .models import Product
-    def productlist(request):
-        context = {
-            'product': Product.objects.all()
-        }
-        return render(request, 'shop/product.html', context)
-    return render(request, 'product.html', )
+    object_list = Product.objects.all().values()
+    return render(request, 'shop/product.html', {'object_list':object_list})
 
 def search(request):
     return HttpResponse("search")
