@@ -1,19 +1,24 @@
+from unicodedata import category
+
 from django.shortcuts import render
 from django.http import HttpResponse
-from . import models
 from math import ceil
 from .models import Product
 
 
 # Create your views here.
 def index(request):
+    products_by_category = {}
+    categories = Product.objects.values_list('category', flat=True).distinct()
+    for category in categories:
+        products_by_category[category] = list(Product.objects.filter(category=category))
     products = Product.objects.all()
-    len_obj = len(products)
-    n_slides = len_obj//4 + ceil(len_obj/4-len_obj//4)
+    # len_obj = len(products)
+    # n_slides = len_obj//4 + ceil(len_obj/4-len_obj//4)
     params = {
-        'products': products,
+        'products_by_category': products_by_category,
+        'products':products
     }
-    print(products)
     return render(request,"shop/index.html", params)
     # return HttpResponse("Success")
 
