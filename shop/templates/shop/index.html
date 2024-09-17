@@ -15,7 +15,8 @@
         background-color: blue;
       }
       body .carousel-control-next, .carousel-control-prev{
-        width:10%;
+        width:1.5rem;
+        margin: 0 -2rem;
       }
       .card img {
         width: 100%;
@@ -26,6 +27,9 @@
         padding-left:8rem;
         padding-right:6rem;
       }
+       .cart:active {
+        transform: scale(0.95);
+       }
 
     </style>
 {% endblock %}
@@ -48,7 +52,7 @@
                                 <div class="card-body">
                                   <h5 class="card-title">{{ product.product_name }}</h5>
                                   <p class="card-text">{{ product.description|slice:"0:50" }}...</p>
-                                  <a href="#" class="btn btn-primary">Add to Cart</a>
+                                  <button id="pr-{{product.id}}" class="btn btn-primary cart">Add to Cart</button>
                                 </div>
                               </div>
                           </div>
@@ -76,3 +80,41 @@
     </section>
     {% endfor %}
 {% endblock %}
+
+{% block js %}
+<script>
+if (localStorage.getItem('cart') == null){
+    var cart = {}
+}
+else{
+    cart = JSON.parse(localStorage.getItem('cart'));
+}
+$('.cart').click(function(){
+    $(this).animate({
+        transform: 'scale(0.9)'
+    }, 100, function(){
+        $(this).animate({
+            transform: 'scale(1)'
+        }, 100);
+    });
+
+    var idStr = this.id.toString();
+
+    if(cart[idStr] != undefined){
+        cart[idStr]+=1;
+    }
+    else{
+        cart[idStr]=1;
+    }
+    localStorage.setItem('cart', JSON.stringify(cart))
+    let total_item=0;
+    Object.keys(cart).forEach(function(key) {
+        total_item += cart[key];
+    });
+    console.log(total_item);
+    document.getElementById('cart').innerHTML=total_item;
+});
+
+
+</script>
+{% endblock%}
