@@ -52,7 +52,10 @@
                                 <div class="card-body">
                                   <h5 class="card-title">{{ product.product_name }}</h5>
                                   <p class="card-text">{{ product.description|slice:"0:50" }}...</p>
-                                  <button id="pr-{{product.id}}" class="btn btn-primary cart">Add to Cart</button>
+                                  <button id="pr-{{product.id}}" class="btn btn-primary cart mx-1">Add to Cart</button>
+                                  <a href="/shop/product/{{product.id}}">
+                                    <button id="vm-{{product.id}}" class="btn btn-primary product_view mx-1">View More</button>
+                                  </a>
                                 </div>
                               </div>
                           </div>
@@ -115,6 +118,12 @@ $('.cart').click(function(){
     document.getElementById('cart').innerHTML=total_item;
 });
 
+const exampleEl = document.getElementById('cartPopOver');
+const popover = new bootstrap.Popover(exampleEl);
+
+popover.setContent({
+    '.popover-body': '<h5>Updated Cart Content</h5>'
+});
 
 </script>
 {% endblock%}

@@ -11,6 +11,7 @@ class Product(models.Model):
     description = models.CharField(max_length=300, default="", blank=True)
     published_date = models.DateField()
     image = models.ImageField(upload_to='shop/images') # uploads into root media/shop/images
+    # rating and reviews can also be added
 
     def __str__(self):
         return self.product_name
